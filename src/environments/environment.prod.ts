@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   api: {
-    baseUrl: 'https://localhost:5001'
+    baseUrl: 'https://searchschool.azurewebsites.net'
   }
 };

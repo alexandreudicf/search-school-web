@@ -17,6 +17,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     BingMapModule,
     MatSnackBarModule,
     MatCardModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ],
   providers: [SchoolService]
 })

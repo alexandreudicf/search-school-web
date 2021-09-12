@@ -1,60 +1,66 @@
 
 
 <div  fxLayout="row" fxLayoutAlign="space-around">
-  <mat-card>
-    <div>
+	<mat-card>
+		<div>
 
-      <h2 class="app-light-text-color">Filter</h2>
-      <form fxLayout="column" [formGroup]="formGroup" (ngSubmit)="onSubmit()"  style="padding-bottom: 16px;">
-        <mat-form-field color="primary" appearance="fill">
-          <mat-label>Your Location</mat-label>
-          <input matInput  formControlName="address">
-          <mat-error *ngIf="formGroup.hasError('required', 'address')">Your Location is required
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field color="primary" appearance="fill">
-          <mat-label>School Name</mat-label>
-          <input matInput formControlName="name">
-        </mat-form-field>
-        <mat-form-field color="primary" appearance="fill">
-          <mat-label>District</mat-label>
-          <input matInput  formControlName="district">
-        </mat-form-field>
+			<h2 class="app-light-text-color">Filter</h2>
+			<form fxLayout="column" [formGroup]="formGroup" (ngSubmit)="onSubmit()"  style="padding-bottom: 16px;">
+				<mat-form-field color="primary" appearance="fill">
+					<mat-label>Your Location</mat-label>
+					<input matInput  formControlName="address">
+					<mat-error *ngIf="formGroup.hasError('required', 'address')">Your Location is required
+					</mat-error>
+				</mat-form-field>
+				<mat-form-field color="primary" appearance="fill">
+					<mat-label>School Name</mat-label>
+					<input matInput formControlName="schoolName">
+				</mat-form-field>
+				<mat-form-field color="primary" appearance="fill">
+					<mat-label>District</mat-label>
+					<input matInput  formControlName="district">
+				</mat-form-field>
 
-        <div fxLayoutAlign="end">
-          <button type="button" mat-stroked-button color="primary" (click)="clear()">Clean</button>
-          <button type="submit" mat-stroked-button color="primary" [disabled]="!formGroup.valid">Search</button>
-        </div>
-      </form>
+				<mat-form-field appearance="fill">
+					<mat-label>Radius</mat-label>
+					<mat-select  formControlName="radius">
+						<mat-option [value]="3">3Km</mat-option>
+						<mat-option [value]="5">5Km</mat-option>
+						<mat-option [value]="7">7Km</mat-option>
+						<mat-option [value]="10">10Km</mat-option>
+					</mat-select>
+				</mat-form-field>
 
-      <mat-divider *ngIf="list != null"></mat-divider>
-      <div *ngIf="list != null" fxLayout="row" style="padding-top: 16px;">
-        <h2 class="mat-title app-light-text-color" fxFlex="90">Schools</h2>
-        <button mat-button fxLayoutAlign="end center" color="primary">
-          <mat-icon>room</mat-icon>
-          <span>Show Schools</span></button>
-      </div>
-      <mat-nav-list *ngIf="list != null">
-        <a mat-list-item *ngFor="let school of paginatedList; last as last;" disableRipple="true" (click)="viewRoute(school)">
+				<div fxLayoutAlign="end">
+					<button type="button" mat-stroked-button color="primary" (click)="clear()">Clean</button>
+					<button type="submit" mat-stroked-button color="primary" [disabled]="!formGroup.valid">Search</button>
+				</div>
+			</form>
 
-          <mat-icon color="primary" matListIcon>school</mat-icon>
-          <div matLine>{{school.nome}} </div>
-          <div matLine>Abreviation: {{school.abrNome}}</div>
-          <div matLine>District: {{school.bairro}}</div>
+			<mat-divider *ngIf="list != null"></mat-divider>
+			<div>
+				<mat-nav-list  *ngIf="list != null">
+					<a mat-list-item *ngFor="let school of paginatedList; last as last;" disableRipple="true" (click)="viewRoute(school)">
 
-            <mat-icon color="primary">navigate_next</mat-icon>
-            <mat-divider *ngIf="!last" [inset]="true"></mat-divider>
-        </a>
-      </mat-nav-list>
-      <mat-paginator  [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 25]" (page)="pageChanged($event)"></mat-paginator>
-    </div>
-  </mat-card>
+						<mat-icon color="primary" matListIcon>school</mat-icon>
+						<div matLine>{{school.nome}} </div>
+						<div matLine>Abreviation: {{school.abrNome}}</div>
+						<div matLine>District: {{school.bairro}}</div>
 
-  <mat-card style="height: 100%;" *ngIf="mapLoaded">
-    <div  style="width: 500px">
-      <app-bing-map #bingmap [myAddress]="myAddress" (selectedLocation)="selectedUser($event)" [loadPins]="true" *ngIf="mapLoaded"></app-bing-map>
+							<mat-icon color="primary">navigate_next</mat-icon>
+							<mat-divider *ngIf="!last" [inset]="true"></mat-divider>
+					</a>
+				</mat-nav-list>
+				<mat-paginator  [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 25]" (page)="pageChanged($event)"></mat-paginator>
+			</div>
+		</div>
+	</mat-card>
 
-    </div>
-  </mat-card>
+	<mat-card style="height: 100%;" *ngIf="mapLoaded">
+		<h2 class="app-light-text-color">Schools within {{formGroup.get('radius')?.value}}km radius</h2>
+		<div  style="width: 500px">
+			<app-bing-map #bingmap [myAddress]="myAddress" (selectedLocation)="selectedLocation($event)" [loadPins]="true" *ngIf="mapLoaded"></app-bing-map>
+		</div>
+	</mat-card>
 
 </div>

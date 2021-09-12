@@ -20,7 +20,7 @@ export class SchoolsComponent implements OnInit {
   paginator?: MatPaginator;
 
   @ViewChild('bingmap')
-  bingMap!: BingMapComponent;
+  bingMap?: BingMapComponent;
 
   mapLoaded = false;
   myAddress: string = '';
@@ -38,9 +38,10 @@ export class SchoolsComponent implements OnInit {
     private bingApiLoader: BingApiLoaderService,
     fb: FormBuilder) {
     this.formGroup = fb.group({
-      name: null,
+      schoolName: null,
       address: [null, Validators.required],
-      district: null
+      district: null,
+      radius: 3
     });
   }
 
@@ -54,20 +55,25 @@ export class SchoolsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectedUser(location: Microsoft.Maps.Location) {
-
-    this.schoolService.getSchoolsNearMe(location.latitude, location.longitude)
+  selectedLocation(location: Microsoft.Maps.Location) {
+    const { radius, schoolName, district } = this.formGroup.value;
+    this.schoolService.getSchoolsNearMe(location.latitude, location.longitude, radius, schoolName, district)
       .subscribe(result => {
         this.list = result;
         this.pageChanged(this.pageEvent || { pageIndex: 0, pageSize: 5, length: this.list.length });
-        this.bingMap.bindUser(result);
+        this.bingMap?.bindPinsOrSetView(result);
       });
   }
 
   clear() {
     this.mapLoaded = false;
     this.list = null;
-    this.formGroup.reset();
+    this.formGroup.patchValue({
+      radius: 3,
+      schoolName: null,
+      district: null
+    });
+    setTimeout(_ => this.formGroup.updateValueAndValidity(), 0);
   }
 
   private paginate(array: School[], pageSize: number, pageNumber: number) {
@@ -78,7 +84,7 @@ export class SchoolsComponent implements OnInit {
     this.pageEvent = pageEvent;
     this.paginatedList = this.paginate(this.list!, pageEvent!.pageSize, pageEvent!.pageIndex + 1);
 
-    this.paginator!.length = pageEvent.length;
+    this.paginator!.length = this.list!.length;
     this.paginator!.pageIndex = pageEvent.pageIndex;
   }
 
@@ -89,7 +95,7 @@ export class SchoolsComponent implements OnInit {
     if (!this.mapLoaded) {
       this.loadMap();
     } else {
-      this.bingMap.bindUser();
+      this.bingMap?.bindPinsOrSetView();
     }
   }
 

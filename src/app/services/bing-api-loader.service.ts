@@ -27,7 +27,6 @@ export class BingApiLoaderService {
         node.type = 'text/javascript';
         node.async = true;
         node.defer = true;
-        // _documentRef.getElementsByTagName('head')[0].appendChild(node);
         this._documentRef.getElementsByTagName('head')[0].appendChild(node);
       });
     }

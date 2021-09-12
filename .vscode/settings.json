@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/9bc305f3-2127-4880-999d-f6a605c4b549/resourceGroups/code-hb/providers/Microsoft.Web/sites/search-school",
+    "appService.deploySubpath": "."
+}

@@ -13,7 +13,12 @@ export class SchoolService {
     return this.httpClient.get<School[]>(`${environment.api.baseUrl}/school`, { params: { limit: 5 } });
   }
 
-  getSchoolsNearMe(latitude: number, longitude: number): Observable<School[]> {
-    return this.httpClient.get<School[]>(`${environment.api.baseUrl}/school/near-me`, { params: { latitude, longitude } });
+  getSchoolsNearMe(latitude: number, longitude: number, distance: number, schoolName: string, district: string): Observable<School[]> {
+    return this.httpClient.get<School[]>(`${environment.api.baseUrl}/school/near-me`,
+      {
+        params: {
+          latitude, longitude, distance, schoolName: schoolName || '', district: district || ''
+        }
+      });
   }
 }

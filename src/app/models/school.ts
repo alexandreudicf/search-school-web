@@ -1,5 +1,3 @@
-import { NumberValueAccessor } from "@angular/forms";
-
 export class School {
   nome?: string;
   codigo?: number;
