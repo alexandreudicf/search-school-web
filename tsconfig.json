@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "types": ["bingmaps"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
@@ -12,6 +13,7 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
+    "noImplicitAny": false,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2017",
@@ -19,7 +21,18 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+		"paths": {
+			"@app/*": [
+				"./src/app/*"
+			],
+			"@src/*": [
+				"./src/*"
+			],
+			"@env/*": [
+				"./src/environments/*"
+			]
+		}
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

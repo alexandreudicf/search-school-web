@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BingApiLoaderService } from './services/bing-api-loader.service';
 
 @Component({
   selector: 'app-root',
